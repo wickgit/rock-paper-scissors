@@ -28,11 +28,9 @@ function computerPlay() {
 }
  
 function game() {
-    for (i = 0; i < 5; i++) {
-        let computerSelection = computerPlay();
-        let playerSelection = window.prompt('Enter your choice: ');
-        console.log('User sleection:', playerSelection, 'Computer selection:', computerSelection);
-        console.log(oneRound(computerSelection, playerSelection));
+    let computerSelection = computerPlay();
+    console.log('User sleection:', playerSelection, 'Computer selection:', computerSelection);
+    console.log(oneRound(computerSelection, playerSelection));
     }
 }
 game();
