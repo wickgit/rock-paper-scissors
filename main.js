@@ -1,68 +1,99 @@
-function oneRound(playerSelection, computerSelection) {
+let playerPoints = 0;
+let computerPoints = 0;
+let roundWinner = '';
+let playerSelection;
+let winner;
+let tries = 0;
+
+// Making objects for modifying scores 
+const playerPointsDisplay = document.getElementById('player-score');
+const computerPointsDisplay = document.getElementById('computer-score');
+const overallTries = document.getElementById('overall-score'); 
+
+
+function oneRound(playerSelection) {
+    let computerSelection = computerPlay(); 
     if (playerSelection ===  computerSelection) {
-        return 'tie';
+        roundWinner = 'Tie';
     } else if (playerSelection === 'rock' && computerSelection === 'paper') {
-        return 'computer';
+        computerPoints++;
+        computerPointsDisplay.textContent = `Computer: ${computerPoints}`;
+        roundWinner = 'Computer';
     } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
-        return 'computer';
+        computerPoints++;
+        computerPointsDisplay.textContent = `Computer: ${computerPoints}`;
+        roundWinner = 'Computer';
     } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
-        return 'computer';
+        computerPoints++;
+        computerPointsDisplay.textContent = `Computer: ${computerPoints}`;
+        roundWinner = 'Computer';
     } else {
-        return 'player';
+        playerPoints++;
+        playerPointsDisplay.textContent = `Player: ${playerPoints}`;
+        roundWinner = 'Player';
     }
+    tries++;
+    overallTries.textContent = `Tries: ${tries}`;
 }
 
-function playerPlay() {
-    let playerSelection;
-    const bttn = document.querySelectorAll('.play-button');
-    bttn.forEach((button) => {    
-        button.addEventListener('click', () => {
-            return button.value;
-        });
-    });
+
+// Check if any player has 5 points => game ends
+function isOver() {
+    if (playerPoints === 5 || computerPoints === 5) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
 function computerPlay() {
     const choice = Math.floor(Math.random() * 3);
     if (choice === 0){
-        return 'Paper';
+        return 'paper';
     } else if (choice === 1) {
-        return 'Rock';
+        return 'rock';
     } else {
-        return 'Scissors';
+        return 'scissors';
     }
 }
- 
-function game() {
-    let computerSelection;
-    let playerSelection;
-    let playerPoints = 0;
-    let computerPoints = 0;
 
-    const bttn = document.querySelectorAll('.play-button');
-    bttn.forEach((button) => {    
-        button.addEventListener('click', () => {
-            if (playerPoints !== 5 || computerPoints !== 5) {
-                playerSelection = button.value;
-                computerSelection = computerPlay().toLowerCase();
-                winner = oneRound(playerSelection, computerSelection);
-                console.log(winner);
-                if (winner === 'player') {
-                    playerPoints++;
-                } else if (winner === 'computer') {
-                    computerPoints++;
-                }
-                console.log(playerPoints, computerPoints);
+
+// Append child element to a scores div with a winner of the game in it
+function displayWinner() {
+    const winnerDisplay = document.createElement('h2');
+    if (winner === 'Player') {    
+        winnerDisplay.textContent = 'You won! Congratulations!'
+    } else {
+        winnerDisplay.textContent = 'You lost :( Better luck next time!'
+    }
+    const scoreDiv = document.querySelector('.winner-banner');
+    scoreDiv.appendChild(winnerDisplay);
+}
+
+function game(e) {
+    if (e.target.classList.contains('play-button')) {
+        playerSelection = e.target.value.toLowerCase();
+        oneRound(playerSelection);
+        if (roundWinner === 'Tie') {
+            winDisplay.textContent = 'Tie!';
+        } else {
+            winDisplay.textContent = `${roundWinner} won !!!`;
+        }
+        console.log(playerPoints, computerPoints);
+
+        if (isOver()) {
+            if (playerPoints > computerPoints) {
+                winner = 'Player';
+            } else {
+                winner = 'Computer';
             }
-        });
-    });
-    if (playerPoints === 5) {
-        return 'player';
-    } else if (computerPoints === 5) {
-        return 'computer';
-    }
+            document.removeEventListener('click', game);
+            displayWinner();
+        }
+    };
 }
 
-let winner = game();
-console.log(winner);
+const winDisplay = document.getElementById('won-display');
+
+document.addEventListener('click', game);
