@@ -1,17 +1,25 @@
 function oneRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase();
-    computerSelection = computerSelection.toLowerCase();
     if (playerSelection ===  computerSelection) {
         return 'tie';
     } else if (playerSelection === 'rock' && computerSelection === 'paper') {
-        return 'player';
-    } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
-        return 'player';
-    } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
-        return 'player';
-    } else {
         return 'computer';
+    } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
+        return 'computer';
+    } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
+        return 'computer';
+    } else {
+        return 'player';
     }
+}
+
+function playerPlay() {
+    let playerSelection;
+    const bttn = document.querySelectorAll('.play-button');
+    bttn.forEach((button) => {    
+        button.addEventListener('click', () => {
+            return button.value;
+        });
+    });
 }
 
 
@@ -27,23 +35,34 @@ function computerPlay() {
 }
  
 function game() {
-    let end = 0;
+    let computerSelection;
     let playerSelection;
-    let computerSelection = computerPlay();
-    const bttn = document.querySelectorAll('.play-button');
-    bttn.forEach((button) => {    
-        button.addEventListener('click', (e) => {
-            console.log(e.target);
-            playerSelection = 
-        });
-    });
     let playerPoints = 0;
     let computerPoints = 0;
-    // console.log('User sleection:', playerSelection, 'Computer selection:', computerSelection);
-    // winner = oneRound(computerSelection, playerSelection);
-    // if (winner === 'player') playerPoints += 1;
-    // else if (winner === 'computer') computerPoints += 1;
+
+    const bttn = document.querySelectorAll('.play-button');
+    bttn.forEach((button) => {    
+        button.addEventListener('click', () => {
+            if (playerPoints !== 5 || computerPoints !== 5) {
+                playerSelection = button.value;
+                computerSelection = computerPlay().toLowerCase();
+                winner = oneRound(playerSelection, computerSelection);
+                console.log(winner);
+                if (winner === 'player') {
+                    playerPoints++;
+                } else if (winner === 'computer') {
+                    computerPoints++;
+                }
+                console.log(playerPoints, computerPoints);
+            }
+        });
+    });
+    if (playerPoints === 5) {
+        return 'player';
+    } else if (computerPoints === 5) {
+        return 'computer';
+    }
 }
 
-
-game();
+let winner = game();
+console.log(winner);
