@@ -8,7 +8,8 @@ let tries = 0;
 // Making objects for modifying scores 
 const playerPointsDisplay = document.getElementById('player-score');
 const computerPointsDisplay = document.getElementById('computer-score');
-const overallTries = document.getElementById('overall-score'); 
+const overallTries = document.getElementById('overall-score');
+const restart = document.getElementById('restart'); 
 
 
 function oneRound(playerSelection) {
@@ -97,3 +98,7 @@ function game(e) {
 const winDisplay = document.getElementById('won-display');
 
 document.addEventListener('click', game);
+
+restart.addEventListener('click', () => {
+    document.location.reload();
+});
