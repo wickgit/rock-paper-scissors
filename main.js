@@ -78,10 +78,11 @@ function game(e) {
         oneRound(playerSelection);
         if (roundWinner === 'Tie') {
             winDisplay.textContent = 'Tie!';
+        } else if (roundWinner === 'Player') { 
+            winDisplay.textContent = 'You won!';
         } else {
-            winDisplay.textContent = `${roundWinner} won !!!`;
+            winDisplay.textContent = 'You lost!';
         }
-        console.log(playerPoints, computerPoints);
 
         if (isOver()) {
             if (playerPoints > computerPoints) {
