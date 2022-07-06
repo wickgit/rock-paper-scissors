@@ -63,13 +63,17 @@ function computerPlay() {
 // Append child element to a scores div with a winner of the game in it
 function displayWinner() {
     const winnerDisplay = document.createElement('h2');
+    winnerDisplay.classList.add('winner');
+    winnerDisplay.style.fontSize = '42px';
     if (winner === 'Player') {    
         winnerDisplay.textContent = 'You won! Congratulations!'
+        winnerDisplay.style.color = '#65A765';
     } else {
         winnerDisplay.textContent = 'You lost :( Better luck next time!'
+        winnerDisplay.style.color = '#A80000';
     }
-    const scoreDiv = document.querySelector('.winner-banner');
-    scoreDiv.appendChild(winnerDisplay);
+    const main = document.getElementById('main');
+    main.insertBefore(winnerDisplay, restart);
 }
 
 function game(e) {
